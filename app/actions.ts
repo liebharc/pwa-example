@@ -31,7 +31,7 @@ export async function sendNotification(message: string) {
 
 	try {
 		await webpush.sendNotification(
-			subscription as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+			subscription as any,
 			JSON.stringify({
 				title: 'Test Notification',
 				body: message,
