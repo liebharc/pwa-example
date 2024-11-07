@@ -15,11 +15,11 @@ function urlBase64ToUint8Array(base64String: string) {
 	}
 	return outputArray;
 }
-/*
+
 interface BeforeInstallPromptEvent extends Event {
 	prompt: () => Promise<void>;
 	userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}*/
+}
 
 function PushNotificationManager() {
 	const [isSupported, setIsSupported] = useState(false);
@@ -74,7 +74,7 @@ function PushNotificationManager() {
 	}
 
 	return (
-		<div className="bg-gray-100 p-5 rounded-lg min-w-[400px] min-w-[400px] ">
+		<div className="bg-gray-100 p-5 rounded-lg">
 			{subscription ? (
 				<>
 					<button
@@ -117,8 +117,8 @@ function PushNotificationManager() {
 function InstallPrompt() {
 	const [isIOS, setIsIOS] = useState(false);
 	const [isStandalone, setIsStandalone] = useState(false);
-	/*const [deferredPrompt, setDeferredPrompt] =
-		useState<BeforeInstallPromptEvent | null>(null);*/
+	const [deferredPrompt, setDeferredPrompt] =
+		useState<BeforeInstallPromptEvent | null>(null);
 
 	useEffect(() => {
 		setIsIOS(
@@ -126,7 +126,7 @@ function InstallPrompt() {
 		);
 
 		setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
-		/*
+
 		const handleBeforeInstallPrompt = (e: any) => {
 			e.preventDefault(); // Prevent automatic prompt
 			setDeferredPrompt(e); // Save the event to trigger later
@@ -139,9 +139,9 @@ function InstallPrompt() {
 			window.removeEventListener(
 				'beforeinstallprompt',
 				handleBeforeInstallPrompt
-			);*/
+			);
 	}, []);
-	/*
+
 	const handleInstallClick = async () => {
 		if (deferredPrompt) {
 			deferredPrompt.prompt(); // Show the install prompt
@@ -153,16 +153,16 @@ function InstallPrompt() {
 			}
 			setDeferredPrompt(null); // Clear the prompt event after use
 		}
-	};*/
+	};
 
 	if (isStandalone) {
 		return null; // Don't show install button if already installed
 	}
 
 	return (
-		<div className="bg-gray-100 p-5 rounded-lg min-w-[400px] ">
+		<div className="bg-gray-100 p-5 rounded-lg">
 			<button
-				//		onClick={handleInstallClick}
+				onClick={handleInstallClick}
 				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 			>
 				Add to Home Screen
@@ -182,18 +182,18 @@ function InstallPrompt() {
 					.
 				</p>
 			)}
-			{/*!isIOS && deferredPrompt && (
+			{!isIOS && deferredPrompt && (
 				<p>
 					Click Add to Home Screen to install this app on your Android device.
 				</p>
-			)*/}
+			)}
 		</div>
 	);
 }
 
 export default function Home() {
 	return (
-		<div className="flex flex-col justify-center items-center gap-12 min-h-screen">
+		<div className="flex flex-col justify-center items-center gap-12 min-w-[600px] min-h-screen">
 			<h1 className="text-xl font-bold">PWA Example</h1>
 			<PushNotificationManager />
 			<InstallPrompt />
