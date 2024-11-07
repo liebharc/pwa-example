@@ -75,35 +75,38 @@ function PushNotificationManager() {
 	}
 
 	return (
-		<div>
-			<h3>Push Notifications</h3>
+		<div className="bg-gray-100 p-5 rounded-lg">
 			{subscription ? (
 				<>
-					<h1>You are subscribed to push notifications.</h1>
-					<br />
-					<button onClick={unsubscribeFromPush} className="text-xl">
+					<button
+						onClick={unsubscribeFromPush}
+						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					>
 						Unsubscribe
 					</button>
 					<br />
 					<br />
 					<input
 						type="text"
-						placeholder="Enter notification message"
+						placeholder="Enter message to yourself"
 						value={message}
 						onChange={(e) => setMessage(e.target.value)}
 					/>
 					<br />
 					<br />
-					<button onClick={sendTestNotification} className="text-xl">
+					<button
+						onClick={sendTestNotification}
+						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					>
 						Send Test
 					</button>
 				</>
 			) : (
 				<>
-					<p>You are not subscribed to push notifications.</p>
-					<br />
-					<br />
-					<button onClick={subscribeToPush} className="text-xl">
+					<button
+						onClick={subscribeToPush}
+						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					>
 						Subscribe
 					</button>
 				</>
@@ -158,8 +161,11 @@ function InstallPrompt() {
 	}
 
 	return (
-		<div>
-			<button onClick={handleInstallClick} className="text-xl">
+		<div className="bg-gray-100 p-5 rounded-lg">
+			<button
+				onClick={handleInstallClick}
+				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+			>
 				Add to Home Screen
 			</button>
 			{isIOS && (
@@ -188,19 +194,10 @@ function InstallPrompt() {
 
 export default function Home() {
 	return (
-		<div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+		<div className="flex flex-col justify-center items-center gap-12 min-w-[600px] min-h-screen">
+			<h1 className="text-xl font-bold">PWA Example</h1>
 			<PushNotificationManager />
 			<InstallPrompt />
-			<main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-				<Image
-					className="dark:invert"
-					src="/next.svg"
-					alt="Next.js logo"
-					width={180}
-					height={38}
-					priority
-				/>
-			</main>
 		</div>
 	);
 }
