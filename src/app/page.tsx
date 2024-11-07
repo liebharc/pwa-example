@@ -112,8 +112,8 @@ function InstallPrompt() {
 
 		setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const handleBeforeInstallPrompt = (e: any) => {
-			// eslint-disable-line @typescript-eslint/no-explicit-any
 			e.preventDefault(); // Prevent automatic prompt
 			setDeferredPrompt(e); // Save the event to trigger later
 		};
