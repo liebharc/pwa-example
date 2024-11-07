@@ -184,7 +184,9 @@ function InstallPrompt() {
 			)}
 			{!isIOS && deferredPrompt && (
 				<p>
-					Click Add to Home Screen to install this app on your Android device.
+					Click Add to Home Screen to install
+					<br />
+					this app on your Android device.
 				</p>
 			)}
 		</div>
