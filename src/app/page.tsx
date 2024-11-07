@@ -17,6 +17,11 @@ function urlBase64ToUint8Array(base64String: string) {
 	return outputArray;
 }
 
+interface BeforeInstallPromptEvent extends Event {
+	prompt: () => Promise<void>;
+	userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 function PushNotificationManager() {
 	const [isSupported, setIsSupported] = useState(false);
 	const [subscription, setSubscription] = useState<PushSubscription | null>(
@@ -97,6 +102,8 @@ function PushNotificationManager() {
 function InstallPrompt() {
 	const [isIOS, setIsIOS] = useState(false);
 	const [isStandalone, setIsStandalone] = useState(false);
+	const [deferredPrompt, setDeferredPrompt] =
+		useState<BeforeInstallPromptEvent | null>(null);
 
 	useEffect(() => {
 		setIsIOS(
@@ -104,7 +111,34 @@ function InstallPrompt() {
 		);
 
 		setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
+
+		const handleBeforeInstallPrompt = (e) => {
+			e.preventDefault(); // Prevent automatic prompt
+			setDeferredPrompt(e); // Save the event to trigger later
+		};
+
+		window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+		// Cleanup event listener on component unmount
+		return () =>
+			window.removeEventListener(
+				'beforeinstallprompt',
+				handleBeforeInstallPrompt
+			);
 	}, []);
+
+	const handleInstallClick = async () => {
+		if (deferredPrompt) {
+			deferredPrompt.prompt(); // Show the install prompt
+			const choiceResult = await deferredPrompt.userChoice;
+			if (choiceResult.outcome === 'accepted') {
+				console.log('User accepted the install prompt');
+			} else {
+				console.log('User dismissed the install prompt');
+			}
+			setDeferredPrompt(null); // Clear the prompt event after use
+		}
+	};
 
 	if (isStandalone) {
 		return null; // Don't show install button if already installed
@@ -113,7 +147,7 @@ function InstallPrompt() {
 	return (
 		<div>
 			<h3>Install App</h3>
-			<button>Add to Home Screen</button>
+			<button onClick={handleInstallClick}>Add to Home Screen</button>
 			{isIOS && (
 				<p>
 					To install this app on your iOS device, tap the share button
@@ -127,6 +161,11 @@ function InstallPrompt() {
 						➕{' '}
 					</span>
 					.
+				</p>
+			)}
+			{!isIOS && deferredPrompt && (
+				<p>
+					Click "Add to Home Screen" to install this app on your Android device.
 				</p>
 			)}
 		</div>
