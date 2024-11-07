@@ -79,20 +79,33 @@ function PushNotificationManager() {
 			<h3>Push Notifications</h3>
 			{subscription ? (
 				<>
-					<p>You are subscribed to push notifications.</p>
-					<button onClick={unsubscribeFromPush}>Unsubscribe</button>
+					<h1>You are subscribed to push notifications.</h1>
+					<br />
+					<button onClick={unsubscribeFromPush} className="text-xl">
+						Unsubscribe
+					</button>
+					<br />
+					<br />
 					<input
 						type="text"
 						placeholder="Enter notification message"
 						value={message}
 						onChange={(e) => setMessage(e.target.value)}
 					/>
-					<button onClick={sendTestNotification}>Send Test</button>
+					<br />
+					<br />
+					<button onClick={sendTestNotification} className="text-xl">
+						Send Test
+					</button>
 				</>
 			) : (
 				<>
 					<p>You are not subscribed to push notifications.</p>
-					<button onClick={subscribeToPush}>Subscribe</button>
+					<br />
+					<br />
+					<button onClick={subscribeToPush} className="text-xl">
+						Subscribe
+					</button>
 				</>
 			)}
 		</div>
@@ -107,12 +120,11 @@ function InstallPrompt() {
 
 	useEffect(() => {
 		setIsIOS(
-			/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream // eslint-disable-line @typescript-eslint/no-explicit-any
+			/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
 		);
 
 		setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const handleBeforeInstallPrompt = (e: any) => {
 			e.preventDefault(); // Prevent automatic prompt
 			setDeferredPrompt(e); // Save the event to trigger later
@@ -147,8 +159,9 @@ function InstallPrompt() {
 
 	return (
 		<div>
-			<h3>Install App</h3>
-			<button onClick={handleInstallClick}>Add to Home Screen</button>
+			<button onClick={handleInstallClick} className="text-xl">
+				Add to Home Screen
+			</button>
 			{isIOS && (
 				<p>
 					To install this app on your iOS device, tap the share button
